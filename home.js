@@ -1,73 +1,143 @@
 const validPin = 1234;
 
-document.getElementById('add-money-btn')
-    .addEventListener('click', function(event){
-        event.preventDefault();
-        const bank = document.getElementById('bank').value;
-        const accountNumber = document.getElementById('account-number').value;
-        const amount = parseInt(document.getElementById('add-amount').value);
-        const pin = parseInt(document.getElementById('add-pin').value);
+// function to get input values
 
-        const availableBalance = parseInt(document.getElementById('available-balance').innerText);
+function getInputValueNumber(id) {
+  const inputField = document.getElementById(id);
+  const inputFieldValue = inputField.value;
+  const inputFieldValueNumber = parseInt(inputFieldValue);
+  return inputFieldValueNumber;
+}
 
-        if(accountNumber.length < 11){
-            alert('please provide valid account number');
-            return;
-        }
+function getInputValue(id) {
+  const inputField = document.getElementById(id);
+  const inputValue = inputField.value;
+  return inputValue;
+}
 
-        if(pin !== validPin){
-            alert('please provide valid pin number');
-            return;
-        }
+// function to get innerText
 
-        const totalNewAvailableBalance = amount + availableBalance;
+function getInnerText(id){
+  const element = document.getElementById(id);
+  const elementValue = element.innerText;
+  const elementValueNumber = parseInt(elementValue);
+  return elementValueNumber;
 
-        document.getElementById('available-balance').innerText = totalNewAvailableBalance;      
+}
 
-    });
+// function to set innerText
+
+function setInnerText(value){
+  const availableBalanceElement = document.getElementById('available-balance');
+  availableBalanceElement.innerText = value;
+}
+
+// function to toggle
+
+function handleToggle(id){
+    const forms = document.getElementsByClassName('form');
+
+    for(const form of forms){
+      form.style.display = 'none';
+    }
+    document.getElementById(id).style.display = "block";
+}
 
 
 
-    // cash out money feature
+document
+  .getElementById("add-money-btn")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    const bank = getInputValue("bank");
+    const accountNumber = getInputValue("account-number");
 
-    document.getElementById('withdraw-btn').addEventListener('click', function(event){
-        event.preventDefault();
+    const amount = getInputValueNumber("add-amount");
+    const pin = getInputValueNumber("add-pin");
 
-        const amount = parseInt(document.getElementById('withdraw-amount').value);
-        const withdrawNumber = document.getElementById('withdraw-number').value;
-        const withdrawPin = parseInt(document.getElementById('withdraw-pin').value);
+    const availableBalance = getInnerText('available-balance');
 
-        const availableBalance = parseInt(document.getElementById('available-balance').innerText);
-
-    if(withdrawNumber.length < 11){
-        alert('please provide valid agent number');
-        return;
+    if (accountNumber.length < 11) {
+      alert("please provide valid account number");
+      return;
     }
 
-    if(withdrawPin !== validPin){
-        alert('please provide valid pin number');
-        return;
+    if (pin !== validPin) {
+      alert("please provide valid pin number");
+      return;
+    }
+   
+    const totalNewAvailableBalance = amount + availableBalance;
+
+    setInnerText(totalNewAvailableBalance);
+
+  });
+
+// cash out money feature
+
+document
+  .getElementById("withdraw-btn")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+
+    const withdrawNumber = getInputValue("withdraw-number");
+
+    const amount = getInputValueNumber("withdraw-amount");
+    const withdrawPin = getInputValueNumber("withdraw-pin");
+
+    const availableBalance = getInnerText('available-balance');
+
+    if (withdrawNumber.length < 11) {
+      alert("please provide valid agent number");
+      return;
     }
 
-        const totalNewAvailableBalance = availableBalance - amount;
+    if (withdrawPin !== validPin) {
+      alert("please provide valid pin number");
+      return;
+    }
 
-        document.getElementById('available-balance').innerText = totalNewAvailableBalance;
+    const totalNewAvailableBalance = availableBalance - amount;
 
-        
+      setInnerText(totalNewAvailableBalance);
 
-    });
-
-
-
+  });
 
 // toggling feature
 
-    document.getElementById('add-money-button').addEventListener('click', function(){
-        document.getElementById('cash-out-parent').style.display = 'none';
-        document.getElementById('add-money-parent').style.display = 'block';
-    });
+document
+  .getElementById("add-money-button")
+  .addEventListener("click", function () {
+    handleToggle('add-money-parent');
+  });
 
-    document.getElementById('cash-out-button').addEventListener('click', function(){
-        document.getElementById('add-money-parent').style.display = 'none';
-        document.getElementById('cash-out-parent').style.display = 'block';
-    });
+document
+  .getElementById("cash-out-button")
+  .addEventListener("click", function () {
+    handleToggle('cash-out-parent');
+    
+  });
+document
+  .getElementById("transfer-money-button")
+  .addEventListener("click", function () {
+    handleToggle('transfer-money-parent');
+  });
+
+document
+  .getElementById("get-bonus-button")
+  .addEventListener("click", function () {
+    handleToggle('get-bonus-parent');
+
+  });
+document
+  .getElementById("pay-bill-button")
+  .addEventListener("click", function () {
+    handleToggle('pay-bill-parent');
+  });
+
+document
+  .getElementById("transaction-button")
+  .addEventListener("click", function () {
+    handleToggle('transaction-parent');
+
+  });
